@@ -9,6 +9,7 @@ namespace Matrix_CountIslands
 {
     class Program
     {
+        //Big(O) -> O(MxN)
         static void Main(string[] args)
         {
             int[,] matrix = new int[,]
