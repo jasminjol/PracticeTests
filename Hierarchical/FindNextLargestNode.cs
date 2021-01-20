@@ -57,53 +57,40 @@ namespace FindNextLargest
 
     public class BST
     {
-        public int FindNextLargest(Node root, int number)
-        {
-            if (root == null)
-                return -1;
+        Time Complexity - O(h)
+     public static TreeNode findNextHigherNodeInBST(TreeNode node){
 
-            Node nextL = root;
+     /* Empty Tree */
+     if (node == null)
+        return null;
 
-            while (nextL != null)
-            {
-                if (nextL.data > number)
-                {
-                    nextL = nextL.left;
-                }
+     /* If the given node has right child  */
+     if (node.right() != null)
+        return findLeftMostNode(node.right());
 
-                if (nextL.data < number)
-                {
-                    nextL = nextL.right;
-                }
+     /* When the given node has no right child  */
+     /* Go up till node is the first left child - return node's parent */
+     TreeNode parent = node.parent();
+     while (parent != null  & &  node == parent.right()){
+        node = parent;
+        parent = parent.parent();
+     }
+        // Intuition: as we traverse left up the tree we traverse smaller values
+        // The first node on the right is the next larger number
+     return parent;
+ }
 
-                if (nextL.data == number)
-                {
-                    if (nextL.right == null && nextL.left == null)
-                    {
-                        while (nextL.parent != null)
-                        {
-                            if (nextL.parent.left != nextL)
-                                nextL = nextL.parent;
-                            else
-                                return nextL.parent.data;
-                        }
+ public static Node findLeftMostNode(Node node){
 
-                        return -1;
-                    }
+      if(node == null)
+           return null;
 
-                    if (nextL.right != null)
-                        nextL = nextL.right;
+      /* Go to the leftmost leaf node */
+      while(node.left != null)
+           node = node.left;
 
-                    while (nextL.left != null)
-                    {
-                        nextL = nextL.left;
-                    }
-
-                    return nextL.data;
-                }
-            }
-
-            return -1;
-        }
+      /* Return the leftmost node */
+      return node;
+ }
     }
 }
