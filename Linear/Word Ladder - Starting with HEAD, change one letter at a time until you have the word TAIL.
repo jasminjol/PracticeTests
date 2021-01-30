@@ -1,0 +1,45 @@
+public struct LadderEntry
+{
+    public string word;
+    public int ladderLength;
+    public LadderEntry(string word, int ladderLength)
+    {
+        this.ladderLength = ladderLength;
+        this.word = word;
+    }
+}
+
+public class Solution 
+{
+    public int LadderLength(string beginWord, string endWord, IList<string> wordList) 
+    {
+        Queue<LadderEntry> queue = new Queue<LadderEntry>();
+        queue.Enqueue(new LadderEntry(beginWord, 1));
+        bool[] visited = new bool[wordList.Count];
+        while (queue.Count > 0)
+        {
+            LadderEntry curr = queue.Dequeue();
+            for (int i = 0; i < wordList.Count; i++)
+            {
+                if (!visited[i] && IsOneLetterApart(curr.word, wordList[i]))
+                {
+                    if (wordList[i] == endWord) return curr.ladderLength + 1;   //If we reached target.
+                    queue.Enqueue(new LadderEntry(wordList[i], curr.ladderLength + 1));
+                    visited[i] = true;   //This word is not processed again.
+                }
+            }
+        }
+        return 0;
+    }   
+    
+    private static bool IsOneLetterApart(string firstWord, string secondWord)
+    {
+        int diff = 0;
+        for (int i = 0; i < firstWord.Length; i++)
+        {
+            if (firstWord[i] != secondWord[i]) diff++;
+            if (diff > 1) return false;
+        }
+        return diff == 1;
+    }
+}
